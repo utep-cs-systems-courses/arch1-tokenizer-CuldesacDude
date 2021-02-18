@@ -1,11 +1,13 @@
-#ifndef _TOKENIZER_
+#define _TOKENIZER_
 #define _TOKENIZER_
 
 
 /* Return true (non-zero) if c is a whitespace characer
    ('\t' or ' ').  
    Zero terminators are not printable (therefore false) */
-int space_char(char c);
+int space_char(char c){
+  
+}
 
 /* Return true (non-zero) if c is a non-whitespace 
    character (not tab or space).  
