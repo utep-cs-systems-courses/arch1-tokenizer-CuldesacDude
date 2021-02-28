@@ -31,8 +31,12 @@ int main (){
   printf("LETTER: %c\n",str2[5]);
 
   //WORD_COUNTER
-  printf("\nWord_counter: %i\n",count_words(" Hello world "));
+  printf("\nWord_counter: %i\n",count_words("Hello World"));
 
+  //COPY_STR
+  char cStr[] = "this is a test";
+  printf("\nCopy_str: \n", copy_str(cStr,sizeof(cStr)));
+  
   return 0;
 
 }
