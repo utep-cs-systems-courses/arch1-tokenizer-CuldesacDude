@@ -134,8 +134,8 @@ char **tokenize(char* str){
   while(i < length){ /*start filling array with pointers returned from copy_str*/
     str = word_start(str);
     
-    int sizediff = word_terminator(str) - str;
-    char_array[i] = copy_str(str,sizediff);
+    int Diff = word_terminator(str) - str;
+    char_array[i] = copy_str(str,Diff);
     
     str = word_terminator(str); //set str to start at the next space char for word_start
     i++;
@@ -157,7 +157,7 @@ void free_tokens(char **tokens){
     free(tokens[i]);
     i++;
   }
-  free(tokens);
+  free(tokens);//this should free the last space
 }
 
 
