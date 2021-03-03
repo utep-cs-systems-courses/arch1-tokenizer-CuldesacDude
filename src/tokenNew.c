@@ -3,24 +3,9 @@
 #include "tokenizer.h"
 
 int main(){
-  char str[] = "Hello World Test ";
-  
-  printf(">  %p ", &str);
-  printf("\nCOPY_STR: %s\n",copy_str( str, sizeof(str)));
-  //printf("\nTOKENIZE: %p\n", tokenize(str));//pointer of a pointer
-  //print_tokens(tokenize(str));
+  char str[] = "THIS IS A TEST";
 
-  char **tok = (tokenize(str));
-
-  print_tokens(tok);
-  
-  //free_tokens(tok);
-
-  //print_tokens(tok);
-
-  
-  
-  return 0;
+  print_tokens(tokenize(str));
 }
 
 int space_char(char c){
@@ -80,17 +65,20 @@ int count_words(char *str){
     return 0;
   }
   int counter = 0;
-  int mode = 0;
+  int mode = 0; // a switch system, not very efficient but it works
   for(; *str!='\0';str++){
-    if(non_space_char(*str) == 1){
+    if(non_space_char(*str) == 1){ //looks for the first letter, once found switch mode's
       mode = 1;
     }
+    /*looks for the next space, if found an empty "space" we have iterate
+      thru a word, so we add 1 a counter */
     if((space_char(*str)==1)&&(mode == 1)){
       counter ++;
       mode = 0;
     }
   }
-  if(mode == 1){
+  /* if there is only one word with no spaces at the ends*/
+  if(mode == 1){ 
     counter ++;
   }
   return counter;
@@ -99,34 +87,20 @@ int count_words(char *str){
 
 char *copy_str(char *inStr , short len){\
   
-  char *copyStr = (char*)malloc(sizeof(char)*(len+1));
+  char *copyStr = (char*)malloc(sizeof(char)*(len+1)); //malloc allocates memory 
 
   int i=0;
-  while( i < len){
+  while( i < len){ //while loop copies the string
     copyStr[i] = inStr[i];
     i++;
   }
-  copyStr[len] = '\0';
-
-  //Debuggin code
-  // printf("1> %p ", &inStr);
-  //printf("2> %p ", &copyStr);
-  /*if(copyStr == NULL){
-    printf("Error memory no allocated");
-    exit(0);
-  }
-  else{  
-    for(int i=0; i<len;i++){
-      printf("%p, ", copyStr[i]);
-    }
-  }*/
-    
+  copyStr[len] = '\0'; //adds a zero terminator to the end of pointer array
   return copyStr;
 }
 
 char **tokenize(char* str){
   
-  int length = count_words(str); //count number of words in string. IN THIS CASE IT SHOULD BE 4
+  int length = count_words(str); //count number of words in string.
   printf("\n>LENGTH %i\n", length);
   char **char_array; //pointer of a pointer;
   char_array = (char**)malloc(sizeof(char*) * (length + 1)); //allocate memory for array
@@ -140,8 +114,13 @@ char **tokenize(char* str){
     str = word_terminator(str); //set str to start at the next space char for word_start
     i++;
   }
-  char_array[i] = NULL; //sets a \0 at the end of the new array
   
+  
+  char_array[i] = NULL; //sets a \0 at the end of the new array
+  /* for(i=0; i<length;i++){
+    printf("%s",char_array[i]);
+  }
+  printf("%s",char_array[i]);*/
   return char_array;
 }
                    
