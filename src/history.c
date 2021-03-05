@@ -1,46 +1,34 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "history.h"
-
-int main(){
-  List *newList = init_history();
-  add_history(newList,"add");
-  add_history(newList,"this");
-  add_history(newList,"pls");
-  print_history(newList);
-  printf("%s",get_history(newList,1));
-  free_history(newList);
-  print_history(newList);
-  
-}
+#include "tokenizer."
 
 List *init_history(){
-  List *history_list = malloc(sizeof(List));
-  history_list->root = NULL;
-  return history_list;
+  List *list = malloc(sizeof(List));
+  return list;
 }
 
 void add_history(List *list, char *str){
-  Item *NodeItem = (Item*)malloc(sizeof(Item)); 
+  Item *newItem = (Item*)malloc(sizeof(Item)); 
   
-  NodeItem->str = str;
-  NodeItem->next = NULL;
-  if(list->root == NULL){
+  newItem->str = str; newItem->next = NULL;
 
-    list->root = NodeItem;
+  if(list->root == NULL){//if no node, we add one to the start
 
-    NodeItem->id = 1;
+    list->root = newItem;
+
+    newItem->id = 1;
   }
   else{
-    int IdCount = 2;
-    Item *holder;
-    holder = list->root;
-    while(holder->next != NULL){
-      IdCount++;
-      holder = holder->next;
+    int Count = 2;
+    Item *curr;
+    curr = list->root;
+    while(curr->next != NULL){
+      Count++;
+      curr = curr->next;
     }
-    holder->next = NodeItem;
-    NodeItem->id = IdCount;
+    curr->next = newItem;
+    newItem->id = Count;
   }
 }
 
@@ -48,26 +36,29 @@ char *get_history(List *list, int id){
   if(id == 1){
     list->root->str;//sends the first item
   }
-  Item *holder = list->root;
-  while(holder != NULL){
-    if(holder->id == id){
-      return holder->str;
+  Item *curr = list->root;
+
+  while(curr != NULL){
+    if(curr->id == id){
+      return curr->str;
     }
-    holder = holder->next;
+    curr = curr->next;
   }
   return NULL;
 }
 
 void print_history(List *list){
-  Item *holder = list->root;
-  while(holder != NULL){
-    printf("ID<%i> STR[%s]\n", holder->id, holder->str);
-    holder = holder->next;
+  Item *curr = list->root;
+  while(curr != NULL){
+    printf("ID: %i string: %s \n", curr->id, curr->str);
+    curr = curr->next;
   }
 }
 
-void free_history(List *list){
+void free_history(List *list){//this is not working properly
+  
   free(list);
+  
 }
 
 

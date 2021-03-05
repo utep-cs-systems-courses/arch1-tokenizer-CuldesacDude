@@ -2,11 +2,13 @@
 #include <stdlib.h>
 #include "tokenizer.h"
 
-int main(){
-  char str[] = "THIS IS A TEST";
 
+/*int main (){
+  char str[100] = "THIS IS A TEST sdsfad asdfdas asdffasd asdfadfs";
   print_tokens(tokenize(str));
-}
+
+  }*/
+ 
 
 int space_char(char c){
   if(c=='\t'||c==' '||c=='\n'){
@@ -28,6 +30,20 @@ int non_space_char(char c){
   return check;
 }
 
+char *word_terminator(char *word){
+  char *zeroPtr = '\0';
+  
+  if(sizeof(word)==0){
+    return zeroPtr;
+  }
+  for(int i=0;i<sizeof(word);i++){
+    if(space_char(word[i])){
+      return &word[i];
+    }
+  }
+  return zeroPtr;
+}
+
 char *word_start(char *str){
   char *zeroPtr = '\0';
   
@@ -43,20 +59,6 @@ char *word_start(char *str){
   }
   return zeroPtr;
 
-}
-
-char *word_terminator(char *word){
-  char *zeroPtr = '\0';
-  
-  if(sizeof(word)==0){
-    return zeroPtr;
-  }
-  for(int i=0;i<sizeof(word);i++){
-    if(space_char(word[i])){
-      return &word[i];
-    }
-  }
-  return zeroPtr;
 }
 
 int count_words(char *str){
@@ -84,20 +86,6 @@ int count_words(char *str){
   return counter;
 }
 
-
-char *copy_str(char *inStr , short len){\
-  
-  char *copyStr = (char*)malloc(sizeof(char)*(len+1)); //malloc allocates memory 
-
-  int i=0;
-  while( i < len){ //while loop copies the string
-    copyStr[i] = inStr[i];
-    i++;
-  }
-  copyStr[len] = '\0'; //adds a zero terminator to the end of pointer array
-  return copyStr;
-}
-
 char **tokenize(char* str){
   
   int length = count_words(str); //count number of words in string.
@@ -123,7 +111,20 @@ char **tokenize(char* str){
   printf("%s",char_array[i]);*/
   return char_array;
 }
-                   
+
+char *copy_str(char *inStr , short len){\
+  
+  char *copyStr = (char*)malloc(sizeof(char)*(len+1)); //malloc allocates memory 
+
+  int i=0;
+  while( i < len){ //while loop copies the string
+    copyStr[i] = inStr[i];
+    i++;
+  }
+  copyStr[len] = '\0'; //adds a zero terminator to the end of pointer array
+  return copyStr;
+}
+
 void print_tokens(char **tokens){
   for(int i=0;tokens[i]!=NULL;i++){
     printf("<%s>",tokens[i]);

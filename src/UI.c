@@ -1,17 +1,39 @@
+#include <stdlib.h>
 #include <stdio.h>
+#include "tokenizer.h"
+#include "history.h"
+#include "tokenNew.c"
+#include "history.c"
 
-#define Max_Limit 500 //not very sure what this does ? i know it is for the array
+#define Limit 100
+int str_length(char *str);
 
-int main() {
+int main(){
+  char userInput[Limit];
+  char **token;
+  List *history = init_history();
+  printf("x : quits program, h : print history\n");
+  printf("enter a string to be tokenized \n");
+  while(*userInput != 'x'){
+    
+    printf("> ");
 
-  // printf() displays the string inside quotation
+    fgets(userInput, Limit, stdin);
 
-  //grab user's input
-  char str[Max_Limit];
-  printf("> ");
-  fgets(str, Max_Limit,stdin);
-  printf("%s",str);
-  
+    if(*userInput!='h'&&*userInput != 'x'){
+      token = tokenize(userInput);
+      printf("user string tokenized\n");
+      print_tokens(token);
+      free_tokens(token);
+      printf("\n adding str to history\n");
+      add_history(history, copy_str(userInput, sizeof(userInput)));
+    }
+    if(*userInput == 'h'){
+      print_history(history);
+    }
+    if(*userInput == 'x'){
+      break;
+    }
+  }
   return 0;
-
 }
